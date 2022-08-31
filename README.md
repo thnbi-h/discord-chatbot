@@ -3,7 +3,9 @@
 
 ---
 
-# discord-chatbot
+<p align="center">
+ <a><img width="600" src="https://media.discordapp.net/attachments/821200514041511948/1014365356908888104/logo.png"/></a>
+</p>
 
 Projeto chatbot desenvolvido pela turma de Administração de Redes de Computadores e Telefonia IP do Curso Técnico Integrado de Telecomunicações do IFSC São José.
 
