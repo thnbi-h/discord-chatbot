@@ -29,4 +29,4 @@ E ainda adicionar o comando para mostrar estas imagens novamente, assim no iníc
 
 `!tele` tiri rin tiri rin tiriin!! básicamente isto.
 
-Brincadeira! Com um fundo de verdade. O comando telefone foi pensado para integrar a matéria de telefonia ip na nossa aplicação. É um comando divertido, criado por uma piada do curso e com finalidade de estudo.
+Brincadeira! Com um fundo de verdade. O comando telefone foi pensado para integrar a matéria de telefonia ip na nossa aplicação. É um comando divertido, criado por uma piada do curso e com finalidade de estudo, vale a pena testar.
