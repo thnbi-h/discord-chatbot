@@ -1,15 +1,14 @@
-const Discord = require("discord.js");
-const config = require("./config.json");
-const { Client, GatewayIntentBits } = require('discord.js');
-const { token } = require('./config.json');
+const Discord = require('discord.js')
+const { Client, GatewayIntentBits } = require('discord.js')
+const { token } = require('./config.json')
 
-// Create a new client instance
-const client = new Client({ intents: [GatewayIntentBits.Guilds] });
+// cria instancia do cliente
+const client = new Client({ intents: [GatewayIntentBits.Guilds] })
 
-// When the client is ready, run this code (only once)
+// quando o cliente está pronto executa esse algoritmo
 client.once('ready', () => {
-	console.log('Ready!');
-});
+  console.log('ok!')
+})
 
-// Login to Discord with your client's token
-client.login(token);
+// faz login no discord usando a token do config.json
+client.login(token)
