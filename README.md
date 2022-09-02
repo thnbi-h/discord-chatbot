@@ -38,5 +38,5 @@ Com `!settelecurso <seu horário>` você pode definir um horário para o bot tod
 > Telstar, um projeto comum da NASA e da empresa estadunidense de telecomunicação AT&T, foi o primeiro satélite de telecomunicação civil. Os satélites Telstar foram os primeiros satélites que permitiam ligações eventuais entre as estações munidas de grandes antenas de acompanhamento.
 
 <div align="center">
-    <img height="400px" src="https://cdn.discordapp.com/attachments/821200514041511948/1015348119933825024/unknown.png">
+    <img height="400px" src="https://cdn.discordapp.com/attachments/821200514041511948/1015349514833510600/1200px-Telstar_satellite_Smithsonian_National_Air_and_Space_Museum_April_2019.jpg">
 </div
