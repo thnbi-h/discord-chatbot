@@ -30,3 +30,9 @@ E ainda adicionar o comando para mostrar estas imagens novamente, assim no iníc
 `!tele` tiri rin tiri rin tiriin!! básicamente isto.
 
 Brincadeira! Com um fundo de verdade. O comando telefone foi pensado para integrar a matéria de telefonia ip na nossa aplicação. É um comando divertido, criado por uma piada do curso e com finalidade de estudo, vale a pena testar
+
+### Curiosidades aleatórias do curso
+
+Com `!settelecurso <seu horário>` você pode definir um horário para o bot todo dia neste horário enviar uma curiosidade sobre o curso (sim existe comando para desativar `!naoquerosaber`). Também existe a opção de você pedir a curiosidade automática no momento que quiser `!curiosidade`
+
+> Telstar, um projeto comum da NASA e da empresa estadunidense de telecomunicação AT&T, foi o primeiro satélite de telecomunicação civil. Os satélites Telstar foram os primeiros satélites que permitiam ligações eventuais entre as estações munidas de grandes antenas de acompanhamento.
