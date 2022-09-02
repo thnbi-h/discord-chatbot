@@ -3,9 +3,9 @@
 
 ---
 
-<p align="center">
- <a><img width="600" src="https://media.discordapp.net/attachments/821200514041511948/1014365356908888104/logo.png"/></a>
-</p>
+<div align="center">
+ <a><img width="400" src="https://media.discordapp.net/attachments/821200514041511948/1014365356908888104/logo.png"/></a>
+</div>
 
 Projeto chatbot desenvolvido pela turma de Administração de Redes de Computadores e Telefonia IP do Curso Técnico Integrado de Telecomunicações do IFSC São José.
 
@@ -36,3 +36,7 @@ Brincadeira! Com um fundo de verdade. O comando telefone foi pensado para integr
 Com `!settelecurso <seu horário>` você pode definir um horário para o bot todo dia neste horário enviar uma curiosidade sobre o curso (sim existe comando para desativar `!naoquerosaber`). Também existe a opção de você pedir a curiosidade automática no momento que quiser `!curiosidade`
 
 > Telstar, um projeto comum da NASA e da empresa estadunidense de telecomunicação AT&T, foi o primeiro satélite de telecomunicação civil. Os satélites Telstar foram os primeiros satélites que permitiam ligações eventuais entre as estações munidas de grandes antenas de acompanhamento.
+
+<div align="center">
+    <img height="400px" src="https://cdn.discordapp.com/attachments/821200514041511948/1015348119933825024/unknown.png">
+</div
