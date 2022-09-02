@@ -11,13 +11,13 @@ Projeto chatbot desenvolvido pela turma de Administração de Redes de Computado
 
 ## 🤔 Premissa da aplicação
 
-O if chatbot é uma ferramenta que pode ser usada para facilitar a vida de estudantes de telecomunicações (assim como nós). Especialmente estudantes do técnico integrado do IFSC câmpus de São José. Já que as suas funções foram criadas a partir de dores de estudantes do curso.
+O if chatbot é uma ferramenta que pode ser usada para facilitar a vida de estudantes de telecomunicações (assim como nós). Especialmente estudantes do técnico integrado do IFSC câmpus de São José. Já que as suas funções foram criadas a partir de dores de estudantes do curso
 
 ### Criar horário para as turmas
 
-A ideia é permitir que seja configurado por meio de comandos os horários de diferentes turmas, e que com estes horários de forma automática o bot crie uma imagem do calendário semanal para cada turma.
+A ideia é permitir que seja configurado por meio de comandos os horários de diferentes turmas, e que com estes horários de forma automática o bot crie uma imagem do calendário semanal para cada turma
 
-E ainda adicionar o comando para mostrar estas imagens novamente, assim no início de cada semestre um aluno pode configurar este horário e depois sempre que alguém quiser saber o horário de sua turma, se já estiver configurada seja só executar um comando como, `!horario turma2` que o bot envia a imagem com o horário da turma requisitado.
+E ainda adicionar o comando para mostrar estas imagens novamente, assim no início de cada semestre um aluno pode configurar este horário e depois sempre que alguém quiser saber o horário de sua turma, se já estiver configurada seja só executar um comando como, `!horario turma2` que o bot envia a imagem com o horário da turma requisitado
 
 ![Imagem de exemplo do horário](https://cdn.discordapp.com/attachments/821200514041511948/1014321683236130927/exemplo.png)
 
@@ -29,4 +29,4 @@ E ainda adicionar o comando para mostrar estas imagens novamente, assim no iníc
 
 `!tele` tiri rin tiri rin tiriin!! básicamente isto.
 
-Brincadeira! Com um fundo de verdade. O comando telefone foi pensado para integrar a matéria de telefonia ip na nossa aplicação. É um comando divertido, criado por uma piada do curso e com finalidade de estudo, vale a pena testar.
+Brincadeira! Com um fundo de verdade. O comando telefone foi pensado para integrar a matéria de telefonia ip na nossa aplicação. É um comando divertido, criado por uma piada do curso e com finalidade de estudo, vale a pena testar
