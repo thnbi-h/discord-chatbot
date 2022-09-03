@@ -40,3 +40,8 @@ Com `!settelecurso <seu horário>` você pode definir um horário para o bot tod
 <div align="center">
     <img height="400px" src="https://cdn.discordapp.com/attachments/821200514041511948/1015348119933825024/unknown.png">
 </div>
+
+## ✍️ Nossas referências
+
+- [Loritta |  Um bot brasileiro para o Discord extremamente customizável](https://loritta.website/)
+- [Ayana | Um bot _all in one_ customizável que entre suas funções tem opções com áudio](https://ayana.io/)
