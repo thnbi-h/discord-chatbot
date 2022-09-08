@@ -1,9 +1,9 @@
 {
   "name": "ifchatbot",
   "version": "0.0.1",
-  "description": "",
   "main": "bot.js",
   "scripts": {
+    "start": "node bot.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
@@ -11,5 +11,7 @@
   "dependencies": {
     "discord.js": "^14.3.0",
     "dotenv": "^16.0.2"
-  }
+  },
+  "devDependencies": {},
+  "description": ""
 }
