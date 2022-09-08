@@ -1,6 +1,8 @@
+const { config } = require('dotenv');
 const Discord = require('discord.js')
 const { Client, GatewayIntentBits } = require('discord.js')
-const { token } = require('./config.json')
+
+config()
 
 // cria instancia do cliente
 const client = new Client({ intents: [GatewayIntentBits.Guilds] })
@@ -11,4 +13,4 @@ client.once('ready', () => {
 })
 
 // faz login no discord usando a token do config.json
-client.login(token)
+client.login(process.env.TOKEN)
