@@ -1,16 +1,27 @@
-const { config } = require('dotenv');
-const Discord = require('discord.js')
-const { Client, GatewayIntentBits } = require('discord.js')
+const { config } = require("dotenv");
+const Discord = require("discord.js");
+const { Client, GatewayIntentBits, Collection } = require("discord.js");
 
-config()
+config();
 
 // cria instancia do cliente
-const client = new Client({ intents: [GatewayIntentBits.Guilds] })
+const client = new Client({
+  intents: [
+    GatewayIntentBits.Guilds,
+    GatewayIntentBits.GuildMessages,
+    GatewayIntentBits.MessageContent,
+    GatewayIntentBits.GuildMembers,
+    GatewayIntentBits.DirectMessages
+  ],
+});
 
 // quando o cliente está pronto executa esse algoritmo
-client.once('ready', () => {
-  console.log('ok!')
-})
+client.once("ready", () => {
+  console.log("ok!");
+});
+
+["commands", "aliases"].forEach(f => client[f] = new Collection());
+["commands", "events"].forEach(f => require(`./handlers/${f}`)(client));
 
 // faz login no discord usando a token do config.json
-client.login(process.env.TOKEN)
+client.login(process.env.TOKEN);
