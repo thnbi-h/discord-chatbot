@@ -18,6 +18,6 @@ module.exports = {
       person = userMention;
     }
 
-    interaction.reply(`pong! ${person.username}`);
+    interaction.reply(`oi, ${person.username}`);
   },
 };
