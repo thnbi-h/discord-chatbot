@@ -41,6 +41,16 @@ Com `!settelecurso <seu horário>` você pode definir um horário para o bot tod
     <img width="600px" src="https://cdn.discordapp.com/attachments/821200514041511948/1015348119933825024/unknown.png">
 </div>
 
+---
+
+## 💻 Tecnologias
+
+[![My Skills](https://skillicons.dev/icons?i=discord,js,nodejs,git,github)](https://skillicons.dev)
+
+## 📊 Status do projeto
+
+![Alt](https://repobeats.axiom.co/api/embed/5fa2c991238c8ff6ff08817906e31ced32fcbb0e.svg "Repobeats analytics image")
+
 ## ✍️ Nossas referências
 
 - [Loritta |  Um bot brasileiro para o Discord extremamente customizável](https://loritta.website/)
