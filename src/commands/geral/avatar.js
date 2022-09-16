@@ -22,12 +22,10 @@ module.exports = {
       person = userMention;
     }
 
-    const embed = new Discord.EmbedBuilder()
-      .setTitle(`Imagem de ${person.username}`)
-      .setImagem(person.displayAvatarURL())
-      .setURL(
-        person.displayAvatarURL({ format: "png", dynamic: true, size: 1024 })
-      );
+    const embed = new discord.EmbedBuilder()
+      .setColor("#ff0000")
+      .setTitle(`Avatar de ${person.username}`)
+      .setImage(person.displayAvatarURL({ dynamic: true, size: 4096 }));
 
     interaction.reply({ embeds: [embed] });
   },

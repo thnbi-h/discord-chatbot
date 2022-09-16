@@ -15,7 +15,6 @@ const client = new Client({
 	],
 });
 
-// quando o cliente está pronto executa esse algoritmo
 client.once("ready", () => {
 	console.log("Estou pronto!");
 });
