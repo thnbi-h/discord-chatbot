@@ -1,19 +1,19 @@
 const discord = require("discord.js");
 
 module.exports = {
-  name: "avatar",
-  description: "Mostra o avatar de um usuário",
-  type: "1",
-  options: [
+  "name" : "avatar",
+  "description" : "mostra o avatar de um usuario",
+  "type" : 1,
+  "options" : [
     {
-      name: "usuário",
-      type: "6",
-      description: "Usuário que você quer ver o avatar",
-      required: false,
+      "name" : "usuario",
+      "type" : 6,
+      "description" : "usuario que voce quer ver o avatar",
+      "required" : false,
     },
   ],
   run: async (client, interaction, args) => {
-    let userMention = interaction.options.getUser("usúario");
+    let userMention = interaction.options.getUser("usuario");
     let person;
 
     if (!userMention) {
