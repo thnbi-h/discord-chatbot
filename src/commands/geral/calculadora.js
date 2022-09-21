@@ -62,8 +62,12 @@ run: async (client, interaction, args) => {
    if (operacao == "/") {
       resultado = n1 / n2;
    }
+   const embed = new discord.EmbedBuilder()
+   .setColor("#008000")
+   .setTitle("Calculadora")
+   .setDescription(`O resultado da operação é: ${resultado}`)
 
-   interaction.reply(`O resultado é ${resultado}`);
+ interaction.reply({ embeds: [embed] });
 
   },
 };
