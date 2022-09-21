@@ -14,10 +14,10 @@ const player = createAudioPlayer();
 
 function playSong() {
 	const resource = createAudioResource(
-      "https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-      {
-         inputType: StreamType.Arbitrary,
-      },
+		"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
+		{
+			inputType: StreamType.Arbitrary,
+		},
 		{
 			metadata: {
 				title: "lofi",
@@ -25,7 +25,19 @@ function playSong() {
 		}
 	);
 	const player = createAudioPlayer({
-		behaviors: { noSubscriber: NoSubscriberBehavior.Pause },
+		behaviors: { noSubscriber: NoSubscriberBehavior.Play },
+	});
+
+	player.on("stateChange", (oldState, newState) => {
+		if (
+			oldState.status === AudioPlayerStatus.Idle &&
+			newState.status === AudioPlayerStatus.Playing
+		) {
+			console.log("Playing audio output on audio player");
+		} else if (newState.status === AudioPlayerStatus.Idle) {
+			console.log("Playback has stopped. Attempting to restart.");
+			player.play(resource);
+		}
 	});
 
 	player.play(resource);
@@ -42,7 +54,7 @@ async function connectToChannel(interaction) {
 		adapterCreator: interaction.guild.voiceAdapterCreator,
 	});
 	try {
-		await entersState(connection, VoiceConnectionStatus.Ready, 30e3);
+		await entersState(connection, VoiceConnectionStatus.Ready, 2_000);
 		return connection;
 	} catch (error) {
 		connection.destroy();
