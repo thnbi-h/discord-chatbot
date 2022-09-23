@@ -1,51 +1,19 @@
 const discord = require("discord.js");
 const {
-	AudioPlayerStatus,
 	createAudioResource,
 	VoiceConnectionStatus,
 	joinVoiceChannel,
 	entersState,
 	createAudioPlayer,
-	NoSubscriberBehavior,
-	StreamType,
 } = require("@discordjs/voice");
+const { join } = require("node:path");
 
 const player = createAudioPlayer();
-
-function playSong() {
-	const resource = createAudioResource(
-		"https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3",
-		{
-			inputType: StreamType.Arbitrary,
-		},
-		{
-			metadata: {
-				title: "lofi",
-			},
-		}
-	);
-	const player = createAudioPlayer({
-		behaviors: { noSubscriber: NoSubscriberBehavior.Play },
-	});
-
-	player.on("stateChange", (oldState, newState) => {
-		if (
-			oldState.status === AudioPlayerStatus.Idle &&
-			newState.status === AudioPlayerStatus.Playing
-		) {
-			console.log("Playing audio output on audio player");
-		} else if (newState.status === AudioPlayerStatus.Idle) {
-			console.log("Playback has stopped. Attempting to restart.");
-			player.play(resource);
-		}
-	});
-
-	player.play(resource);
-
-	player.on(AudioPlayerStatus.Idle, () => {
-		connection.destroy();
-	});
-}
+const resource = createAudioResource(
+	join(__dirname, "../../audios/teste.mp3"),
+	{ inlineVolume: true }
+);
+resource.volume.setVolume(1.5);
 
 async function connectToChannel(interaction) {
 	const connection = joinVoiceChannel({
@@ -63,8 +31,8 @@ async function connectToChannel(interaction) {
 }
 
 module.exports = {
-	name: "tocaom",
-	description: "toca um audio",
+	name: "tocasom",
+	description: "toca o som de um telefone antigo",
 	type: 1,
 
 	run: async (client, interaction, args) => {
@@ -76,8 +44,8 @@ module.exports = {
 			try {
 				const connection = await connectToChannel(interaction);
 				connection.subscribe(player);
-				playSong();
 				interaction.reply("lesgo!");
+				player.play(resource);
 			} catch (error) {
 				console.error(error);
 			}
