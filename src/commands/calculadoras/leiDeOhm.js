@@ -32,13 +32,13 @@ module.exports = {
 
 		if (R == 0) {
 			let resultado = V / I;
-			interaction.reply(`A resistência é ${resultado} Ohms`);
+			interaction.reply(`A resistência é ${resultado} ** Ohms ** Ω`);
 		} else if (I == 0) {
 			let resultado = V / R;
-			interaction.reply(`A corrente é ${resultado} Amperes`);
+			interaction.reply(`A corrente é ${resultado} ** Amperes 🔌**`);
 		} else if (V == 0) {
 			let resultado = R * I;
-			interaction.reply(`A tensão é ${resultado} Volts`);
+			interaction.reply(`A tensão é ${resultado} ** Volts ⚡**`);
 		}
 	},
 };

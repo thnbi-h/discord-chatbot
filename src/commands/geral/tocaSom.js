@@ -44,9 +44,10 @@ module.exports = {
 			try {
 				const connection = await connectToChannel(interaction);
 				connection.subscribe(player);
-				interaction.reply("lesgo!");
+				interaction.reply("**tiririnrinrinrin tiririririn ☎️ **");
 				player.play(resource);
 			} catch (error) {
+
 				console.error(error);
 			}
 		}

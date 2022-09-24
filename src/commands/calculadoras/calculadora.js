@@ -2,7 +2,7 @@ const discord = require("discord.js");
 
 module.exports = {
   "name" : "calc",
-  "description" : "é uma cáculadora, só que no discord e bem simples",
+  "description" : "é uma cáculadora, só que no discord",
   "type" : 1,
    "options" : [
       {
@@ -65,7 +65,7 @@ run: async (client, interaction, args) => {
    const embed = new discord.EmbedBuilder()
    .setColor("#008000")
    .setTitle("Calculadora")
-   .setDescription(`O resultado da operação é: ${resultado}`)
+   .setDescription(`O resultado da operação é: ${resultado} ** | 🧑‍🏫**`)
 
  interaction.reply({ embeds: [embed] });
 
