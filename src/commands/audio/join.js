@@ -24,7 +24,7 @@ module.exports = {
 	description: "entra no seu canal de voz",
 	type: 1,
 
-	run: async (client, interaction, args) => {
+	run: async (client, interaction) => {
 		if (!interaction.member.voice.channel)
 			return interaction.reply(
 				"Você precisa estar em um canal de voz para usar este comando!"
