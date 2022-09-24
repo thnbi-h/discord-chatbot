@@ -10,7 +10,7 @@ const { join } = require("node:path");
 
 const player = createAudioPlayer();
 const resource = createAudioResource(
-	join(__dirname, "../../audios/teste.mp3"),
+	join(__dirname, "../../assets/audios/teste.mp3"),
 	{ inlineVolume: true }
 );
 resource.volume.setVolume(1.5);
