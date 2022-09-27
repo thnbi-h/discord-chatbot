@@ -1,8 +1,8 @@
 const discord = require("discord.js");
 
 module.exports = {
-  "name" : "calc",
-  "description" : "é uma cáculadora, só que no discord",
+  "name" : "scalc",
+  "description" : "é uma cáculadora simples, só que no discord",
   "type" : 1,
    "options" : [
       {
