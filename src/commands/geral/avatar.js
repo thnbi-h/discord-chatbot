@@ -23,7 +23,7 @@ module.exports = {
     }
 
     const embed = new discord.EmbedBuilder()
-      .setColor("#ff0000")
+      .setColor("#008000")
       .setTitle(`Avatar de **${person.username} | 🖼️**`)
       .setImage(person.displayAvatarURL({ dynamic: true, size: 4096 }));
 
