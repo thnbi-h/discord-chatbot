@@ -21,6 +21,14 @@ E ainda adicionar o comando para mostrar estas imagens novamente, assim no iníc
 
 ![Imagem de exemplo do horário](https://cdn.discordapp.com/attachments/821200514041511948/1014321683236130927/exemplo.png)
 
+### Comandos por voz
+
+Os comandos por voz fazem parte de uma função mais experimental do aifbot. Com apoio de uma inteligência artificial transcrevemos alguns segundos de voz e com esta transcrição executamos comandos simples, quando você falar `oi` o aifbot que é muito educado responde, é claro, se você quiser que o aifbot se apresente é só perguntar `quem é você`
+
+### Gravador de áudio
+
+Com o comando `/gravar` o aifbot grava o áudio da sua chamada por alguns minutos e quando a gravação para, ele envia a gravação no chat
+
 ### Calculadora com algumas fórmulas do curso
 
 É uma calculadora com algumas funções a mais, além de fazer cálculos simples como `2 + 2` você também pode usar para outras coisas que podem ser úteis como por exemplo, converter uma tensão em milivolts para volts, ou até calcular a lei de ohms. Exemplo: `!ohms R=10 I=2` então o bot retorna: `V = 20 Volts`
