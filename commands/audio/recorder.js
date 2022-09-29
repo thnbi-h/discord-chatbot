@@ -28,8 +28,8 @@ function createListeningStream(VoiceReceiver, interaction) {
 		crc: false,
 	});
 
-	let data = Date.now();
-	const filename = `./assets/audios/${data}-${interaction.member.id}.ogg`;
+	let date = Date.now();
+	const filename = `./assets/audios/${date}-${interaction.member.id}.ogg`;
 	const out = createWriteStream(filename);
 
 	pipeline(opusStream, prismStream, out, (err) => {
@@ -48,11 +48,19 @@ module.exports = {
 
 	run: async (client, interaction, args) => {
 		try{
+			if (!interaction.member.voice.channelId) {
+				return interaction.reply({
+					content: "Você precisa estar em um canal de voz para usar esse comando! ** | 💁** ",
+					ephemeral: true,
+				});
+			}
 			const connection = getVoiceConnection(interaction.guild.id);
 			const receiver = connection.receiver;
 			receiver.speaking.on("start", () => {
 				createListeningStream(receiver, interaction);
 			});
+			await interaction.reply({ content: "Começando a gravar...", ephemeral: true });
+			
 		}
 		catch(err){
 			console.warn(err);
