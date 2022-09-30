@@ -29,14 +29,13 @@ function createListeningStream(VoiceReceiver, interaction) {
 	});
 
 	let date = Date.now();
-	const filename = `./assets/audios/${date}-${interaction.member.id}.ogg`;
+	const filename = `./gravacoes/${date}-${interaction.member.id}.ogg`;
 	const out = createWriteStream(filename);
-
 	pipeline(opusStream, prismStream, out, (err) => {
 		if (err) {
 			console.error(err);
 		} else {
-			console.log("Stream finished");
+			console.log("Gravação finalizada!");
 		}
 	});
 }
@@ -47,10 +46,11 @@ module.exports = {
 	type: 1,
 
 	run: async (client, interaction, args) => {
-		try{
+		try {
 			if (!interaction.member.voice.channelId) {
 				return interaction.reply({
-					content: "Você precisa estar em um canal de voz para usar esse comando! ** | 💁** ",
+					content:
+						"Você precisa estar em um canal de voz para usar esse comando! ** | 💁** ",
 					ephemeral: true,
 				});
 			}
@@ -59,12 +59,16 @@ module.exports = {
 			receiver.speaking.on("start", () => {
 				createListeningStream(receiver, interaction);
 			});
-			await interaction.reply({ content: "Começando a gravar...", ephemeral: true });
-			
-		}
-		catch(err){
+			await interaction.reply({
+				content: "Começando a gravar...",
+				ephemeral: true,
+			});
+		} catch (err) {
 			console.warn(err);
-			await interaction.reply({ content: "houve algum problema", ephemeral: true });
+			await interaction.reply({
+				content: "houve algum problema",
+				ephemeral: true,
+			});
 		}
 	},
 };
