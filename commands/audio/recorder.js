@@ -6,14 +6,20 @@ const {
 	getVoiceConnection,
 	VoiceConnection,
 } = require("@discordjs/voice");
-const { User, InteractionCollector } = require("discord.js");
+const {
+	User,
+	InteractionCollector,
+	AttachmentBuilder,
+	EmbedBuilder,
+} = require("discord.js");
 const prism = require("prism-media");
+const { channel } = require("diagnostics_channel");
 
-function createListeningStream(VoiceReceiver, interaction) {
+async function createListeningStream(VoiceReceiver, interaction, client) {
 	const opusStream = VoiceReceiver.subscribe(interaction.member.id, {
 		end: {
 			behavior: EndBehaviorType.AfterSilence,
-			duration: 1000,
+			duration: 3000,
 		},
 	});
 
@@ -36,6 +42,9 @@ function createListeningStream(VoiceReceiver, interaction) {
 			console.error(err);
 		} else {
 			console.log("Gravação finalizada!");
+			const file = new AttachmentBuilder(filename);
+			const channel = client.channels.cache.get(interaction.channelId);
+			channel.send({ files: [file] });
 		}
 	});
 }
@@ -57,10 +66,11 @@ module.exports = {
 			const connection = getVoiceConnection(interaction.guild.id);
 			const receiver = connection.receiver;
 			receiver.speaking.on("start", () => {
-				createListeningStream(receiver, interaction);
+				createListeningStream(receiver, interaction, client);
 			});
-			await interaction.reply({
-				content: "Começando a gravar...",
+
+			interaction.reply({
+				content: "Gravação iniciada! ** | 🎙️** ",
 				ephemeral: true,
 			});
 		} catch (err) {
