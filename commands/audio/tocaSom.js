@@ -10,7 +10,7 @@ const { join } = require("node:path");
 
 const player = createAudioPlayer();
 const resource = createAudioResource(
-	join(__dirname, "../../assets/audios/teste.mp3"),
+	join(__dirname, "../../assets/audios/Old-telephone-ring-sound-effect.mp3"),
 	{ inlineVolume: true }
 );
 resource.volume.setVolume(1.5);
@@ -46,8 +46,8 @@ module.exports = {
 				connection.subscribe(player);
 				interaction.reply("**tiririnrinrinrin tiririririn ☎️ **");
 				player.play(resource);
-			} catch (error) {
 
+			} catch (error) {
 				console.error(error);
 			}
 		}
