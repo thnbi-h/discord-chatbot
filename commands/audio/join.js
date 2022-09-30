@@ -32,7 +32,7 @@ module.exports = {
 		else {
 			try {
 				connectToChannel(interaction);
-				interaction.reply("entrou no canal de voz");
+				await interaction.reply("entrou no canal de voz");
 			} catch (error) {
 				console.error(error);
 			}

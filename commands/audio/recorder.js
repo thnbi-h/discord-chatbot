@@ -42,11 +42,22 @@ async function createListeningStream(VoiceReceiver, interaction, client) {
 			console.error(err);
 		} else {
 			console.log("Gravação finalizada!");
-			const file = new AttachmentBuilder(filename);
-			const channel = client.channels.cache.get(interaction.channelId);
-			channel.send({ files: [file] });
+			audioResponse(interaction, filename, client);
 		}
 	});
+}
+
+function audioResponse(interaction, filename, client) {
+	try{
+		const attachment = new AttachmentBuilder()
+		.setFile(filename)
+	
+		const channel = client.channels.cache.get(interaction.channelId);
+		channel.send({ files: [attachment], content: `Gravação de **${interaction.member.user.username} | 💁**` });
+	}
+	catch(err){
+		console.log(err);
+	}
 }
 
 module.exports = {
@@ -57,7 +68,7 @@ module.exports = {
 	run: async (client, interaction, args) => {
 		try {
 			if (!interaction.member.voice.channelId) {
-				return interaction.reply({
+				await interaction.reply({
 					content:
 						"Você precisa estar em um canal de voz para usar esse comando! ** | 💁** ",
 					ephemeral: true,
@@ -77,7 +88,6 @@ module.exports = {
 			console.warn(err);
 			await interaction.reply({
 				content: "houve algum problema",
-				ephemeral: true,
 			});
 		}
 	},
