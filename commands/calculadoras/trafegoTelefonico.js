@@ -1,58 +1,64 @@
 const discord = require("discord.js");
 
 module.exports = {
-	name: "trafegoTelefonico",
+	name: "tra",
 	description: "calcula o trafego telefonico de um usuario",
 	type: 1,
-      options: [
-         {
-            name: "Au",
-            description: "Informe o valor do trafego, caso seja o valor que você quer decobrir, coloque 0",
-            type: 10,
-            required: true,
-         },
-         {
-            name: "tempo-de-amostragem",
-            description: "Informe o tempo de amostragem em segundos, caso seja o valor que você quer decobrir, coloque 0",
-            type: 10,
-            required: true,
-         },
-         {
-            name: "numero-de-chamadas",
-            description: "Informe o numero de chamadas no tempo, caso seja o valor que você quer decobrir, coloque 0",
-            type: 10,
-            required: true,
-         },
-         {
-            name: "tempo-medio-de-chamada",
-            description: "Informe o tempo medio de chamada em segundos, caso seja o valor que você quer decobrir, coloque 0",
-            type: 10,
-            required: true,
-         }
-      ],
+	options: [
+		{
+			name: "trafego",
+			description:
+				"Informe o valor do trafego, caso seja o valor que você quer decobrir, coloque 0",
+			type: 10,
+			required: true,
+		},
+		{
+			name: "periodo",
+			description:
+				"Informe o tempo de amostragem em minutos, caso seja o valor que você quer decobrir, coloque 0",
+			type: 10,
+			required: true,
+		},
+		{
+			name: "chamadas",
+			description:
+				"Informe o numero de chamadas no tempo, caso seja o valor que você quer decobrir, coloque 0",
+			type: 10,
+			required: true,
+		},
+		{
+			name: "tmedio",
+			description:
+				"Informe o tempo medio de chamada em minutos, caso seja o valor que você quer decobrir, coloque 0",
+			type: 10,
+			required: true,
+		},
+	],
 
 	run: async (client, interaction, args) => {
-		const Au = interaction.options.getNumber("Au");
-      const tempoDeAmostragem = interaction.options.getNumber("tempo-de-amostragem");
-      const numeroDeChamadas = interaction.options.getNumber("numero-de-chamadas");
-      const tempoMedioDeChamada = interaction.options.getNumber("tempo medio de chamada");
+		const trafego = interaction.options.getNumber("au");
+		const periodo = interaction.options.getNumber("periodo");
+		const chamadas = interaction.options.getNumber("chamadas");
+		const tmedio = interaction.options.getNumber("tmedio");
 
-      if (Au == 0) {
-         const resultado = (numeroDeChamadas/tempoDeAmostragem)*tempoMedioDeChamada;
-         interaction.reply(`O trafego é ${resultado} ** Erlangs **`);
-      }
-      else if (tempoDeAmostragem == 0) {
-         const resultado = (numeroDeChamadas/Au)*tempoMedioDeChamada;
-         interaction.reply(`O tempo de amostragem é ${resultado} ** segundos **`);
-      }
-      else if (numeroDeChamadas == 0) {
-         const resultado = (Au/tempoDeAmostragem)*tempoMedioDeChamada;
-         interaction.reply(`O numero de chamadas é ${resultado} ** chamadas **`);
-      }
-      else if (tempoMedioDeChamada == 0) {
-         const resultado = (Au/tempoDeAmostragem)*numeroDeChamadas;
-         interaction.reply(`O tempo medio de chamada é ${resultado} ** segundos **`);
-      }
-      
+		if (trafego == 0) {
+			const resultado = (chamadas * tmedio) / periodo;
+			interaction.reply(`O trafego é ${resultado} ** Erlangs **`);
+		} else if (periodo == 0) {
+			const resultado = (chamadas / trafego) * tmedio;
+			interaction.reply(
+				`O tempo de amostragem é ${resultado} ** minutos **`
+			);
+		} else if (chamadas == 0) {
+			const resultado = (trafego / tmedio) * periodo;
+			interaction.reply(
+				`O numero de chamadas é ${resultado} ** chamadas **`
+			);
+		} else if (tmedio == 0) {
+			const resultado = (periodo / chamadas) * chamadas;
+			interaction.reply(
+				`O tempo medio de chamada é ${resultado} ** minutos **`
+			);
+		}
 	},
 };
