@@ -1,84 +1,75 @@
 const { createWriteStream } = require("fs");
 const { pipeline } = require("stream");
-const {
-	EndBehaviorType,
-	VoiceReceiver,
-	getVoiceConnection,
-	VoiceConnection,
-} = require("@discordjs/voice");
-const {
-	User,
-	InteractionCollector,
-	AttachmentBuilder,
-	EmbedBuilder,
-} = require("discord.js");
+const { EndBehaviorType, getVoiceConnection } = require("@discordjs/voice");
+const { AttachmentBuilder } = require("discord.js");
 const prism = require("prism-media");
-const { channel } = require("diagnostics_channel");
 
-async function createListeningStream(VoiceReceiver, interaction, client) {
+async function createListeningStream( VoiceReceiver, interaction, client, filename, out) {
+	
+	// cria uma stream de audio do canal de voz
 	const opusStream = VoiceReceiver.subscribe(interaction.member.id, {
 		end: {
 			behavior: EndBehaviorType.AfterSilence,
-			duration: 3000,
+			duration: 500,
 		},
 	});
 
+	// modula a stream
 	const prismStream = new prism.opus.OggLogicalBitstream({
 		opusHead: new prism.opus.OpusHead({
 			channelCount: 2,
 			sampleRate: 48000,
 		}),
-		pageSizeControl: {
-			maxPackets: 10,
-		},
 		crc: false,
 	});
 
-	let date = Date.now();
-	const filename = `./gravacoes/${date}-${interaction.member.id}.ogg`;
-	const out = createWriteStream(filename);
+	
 	pipeline(opusStream, prismStream, out, (err) => {
 		if (err) {
 			console.error(err);
-		} else {
-			console.log("Gravação finalizada!");
+		} else if (opusStream.readableEnded) {
 			audioResponse(interaction, filename, client);
 		}
 	});
 }
 
+
 function audioResponse(interaction, filename, client) {
-	try{
-		const attachment = new AttachmentBuilder()
-		.setFile(filename)
-	
+	try {
+		const attachment = new AttachmentBuilder().setFile(filename);
 		const channel = client.channels.cache.get(interaction.channelId);
-		channel.send({ files: [attachment], content: `Gravação de **${interaction.member.user.username} | 💁**` });
-	}
-	catch(err){
-		console.log(err);
-	}
+		channel.send({
+			files: [attachment],
+			content: `Gravação de **${interaction.member.user.username} | 💁**`,
+		});
+	} catch (err){
+		console.error(err);
+	} 
 }
+
 
 module.exports = {
 	name: "record",
-	description: "grava sua voz",
+	description: "grava sua voz obs: caso o audio seja muito grande, pode ser que o bot não consiga enviar o arquivo.",
 	type: 1,
 
 	run: async (client, interaction, args) => {
 		try {
 			if (!interaction.member.voice.channelId) {
 				await interaction.reply({
-					content:
-						"Você precisa estar em um canal de voz para usar esse comando! ** | 💁** ",
+					content: "Você precisa estar em um canal de voz para usar esse comando! ** | 💁** ",
 					ephemeral: true,
 				});
 			}
 			const connection = getVoiceConnection(interaction.guild.id);
 			const receiver = connection.receiver;
+
+			let date = Date.now();
+			const filename = `./gravacoes/${interaction.member.user.username}-${date}.ogg`;
+			const out = createWriteStream(filename);
+			
 			receiver.speaking.on("start", () => {
-				createListeningStream(receiver, interaction, client);
-			});
+				createListeningStream(receiver, interaction, client, filename, out)});
 
 			interaction.reply({
 				content: "Gravação iniciada! ** | 🎙️** ",
@@ -86,9 +77,7 @@ module.exports = {
 			});
 		} catch (err) {
 			console.warn(err);
-			await interaction.reply({
-				content: "houve algum problema",
-			});
+			await interaction.reply({ content: "houve algum problema ao iniciar a gravação! ** | 😞** ",});
 		}
 	},
 };

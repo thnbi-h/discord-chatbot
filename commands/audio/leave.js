@@ -1,5 +1,4 @@
 const { getVoiceConnection } = require("@discordjs/voice");
-const { client } = require("discord.js");
 
 async function disconnectFromChannel(interaction) {
 	const connection = getVoiceConnection(interaction.guild.id);
@@ -13,7 +12,7 @@ module.exports = {
 	description: "o bot sai do canal de voz",
 	type: 1,
 
-	run: async (client, interaction) => {
+	run: async (args, interaction) => {
 		try {
 			interaction.reply("até mais!");
 			disconnectFromChannel(interaction);
