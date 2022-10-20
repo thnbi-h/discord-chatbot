@@ -1,6 +1,6 @@
 const { config } = require("dotenv");
 const Discord = require("discord.js");
-const { Client, GatewayIntentBits, Collection } = require("discord.js");
+const { Client, GatewayIntentBits, Collection, ActivityType } = require("discord.js");
 
 config();
 
@@ -17,8 +17,10 @@ const client = new Client({
 	],
 });
 
-client.once("ready", () => {
+client.on("ready", () => {
+	client.user.setActivity('/help', {type: ActivityType.Listening});
 	console.log("Estou pronto!");
+
 });
 
 ["commands", "aliases"].forEach((f) => (client[f] = new Collection()));
