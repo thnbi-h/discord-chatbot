@@ -7,14 +7,7 @@ const {
 } = require("@discordjs/voice");
 const { pipeline } = require("stream");
 const prism = require("prism-media");
-const { config } = require("dotenv");
-const { Wit, log } = require("node-wit");
-
-const witclient = new Wit({
-   accessToken: process.env.WIT_TOKEN,
-   logger: new log.Logger(log.DEBUG), // optional
-});
-
+const { createWriteStream, readFileSync } = require("fs");
 
 async function connectToChannel(interaction) {
 	const connection = joinVoiceChannel({
@@ -31,8 +24,13 @@ async function connectToChannel(interaction) {
 	}
 }
 
-
-async function voiceRecognition(VoiceReceiver, interaction, client) {
+async function voiceRecognition(
+	VoiceReceiver,
+	interaction,
+	client,
+	filename,
+	out
+) {
 	// cria uma stream de audio do canal de voz
 	const opusStream = VoiceReceiver.subscribe(interaction.member.id, {
 		end: {
@@ -50,12 +48,26 @@ async function voiceRecognition(VoiceReceiver, interaction, client) {
 		crc: false,
 	});
 
-	pipeline(opusStream, prismStream, witStream, (err) => {
+	pipeline(opusStream, prismStream, out, (err) => {
 		if (err) {
 			console.error(err);
-		} else {
+		} else if (opusStream.readableEnded) {
+			sendAudioToWitAi(filename, client, interaction);
 		}
 	});
+}
+
+async function sendAudioToWitAi(filename, client, interaction) {
+	const { Wit } = require("node-wit");
+	const clientWit = new Wit({
+		accessToken: process.env.WITAI_TOKEN,
+	});
+
+	const audio = readFileSync(filename);
+	const response = await clientWit.message(audio, {});
+
+	const channel = client.channels.cache.get(interaction.channelId);
+	channel.send({ content: `${response.text}` });
 }
 
 module.exports = {
@@ -63,21 +75,27 @@ module.exports = {
 	description: "ativa a função de reconhecimento de voz do aifbot",
 	type: 1,
 	run: async (client, interaction, args) => {
-		// if (!interaction.member.voice.channel)
-		// return interaction.reply("Você precisa estar em um canal de voz para usar este comando!");
+		if (!interaction.member.voice.channel)
+			return interaction.reply(
+				"Você precisa estar em um canal de voz para usar este comando!"
+			);
 		try {
-			// connectToChannel(interaction);
-			// const connection = getVoiceConnection(interaction.guild.id);
-			// const receiver = connection.receiver;
+			connectToChannel(interaction);
+			const connection = getVoiceConnection(interaction.guild.id);
+			const receiver = connection.receiver;
 
-			// receiver.speaking.on("start", () => {
-			// voiceRecognition(receiver, interaction, client)});
+			let date = Date.now();
+			const filename = `./gravacoes/${interaction.member.user.username}-${date}.ogg`;
+			const out = createWriteStream(filename);
 
-			// interaction.reply({
-			// content: "Escutando ** | 🎙️** ",
-			// ephemeral: true,
-			// });
-			interaction.reply(JSON.stringify((await witclient.message("oi"))));
+			receiver.speaking.on("start", () => {
+				voiceRecognition(receiver, interaction, client, filename, out);
+			});
+
+			interaction.reply({
+				content: "Escutando ** | 🎙️** ",
+				ephemeral: true,
+			});
 		} catch (error) {
 			console.error(error);
 		}

@@ -5,8 +5,7 @@ const { AttachmentBuilder } = require("discord.js");
 const prism = require("prism-media");
 
 async function createListeningStream( VoiceReceiver, interaction, client, filename, out) {
-	
-	// cria uma stream de audio do canal de voz
+
 	const opusStream = VoiceReceiver.subscribe(interaction.member.id, {
 		end: {
 			behavior: EndBehaviorType.AfterSilence,
@@ -14,7 +13,7 @@ async function createListeningStream( VoiceReceiver, interaction, client, filena
 		},
 	});
 
-	// modula a stream
+
 	const prismStream = new prism.opus.OggLogicalBitstream({
 		opusHead: new prism.opus.OpusHead({
 			channelCount: 2,
