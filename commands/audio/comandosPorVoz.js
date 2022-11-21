@@ -2,72 +2,47 @@ const {
 	VoiceConnectionStatus,
 	joinVoiceChannel,
 	entersState,
-	EndBehaviorType,
 	getVoiceConnection,
 } = require("@discordjs/voice");
-const { pipeline } = require("stream");
-const prism = require("prism-media");
-const { createWriteStream, readFileSync } = require("fs");
+const fs = require("fs");
+const Transcriber = require("discord-speech-to-text");
+const {
+	crypto_secretstream_xchacha20poly1305_TAG_MESSAGE,
+} = require("libsodium-wrappers");
 
-async function connectToChannel(interaction) {
+const transcriber = new Transcriber(process.env.WIT_TOKEN);
+
+function join(interaction) {
 	const connection = joinVoiceChannel({
 		channelId: interaction.member.voice.channel.id,
 		guildId: interaction.guild.id,
 		adapterCreator: interaction.guild.voiceAdapterCreator,
+		selfDeaf: false,
+		selfMute: false,
 	});
-	try {
-		await entersState(connection, VoiceConnectionStatus.Ready, 2_000);
-		return connection;
-	} catch (error) {
+	connection.receiver.speaking.on("start", (userId) => {
+		transcriber
+			.listen(connection.receiver, userId, interaction)
+			.then((data) => {
+				if (!data.transcript.text) return;
+				let text = data.transcript.text;
+				const channel = interaction.client.channels.cache.get(
+					interaction.channelId
+				);
+				if (text.includes("desligar")) {
+					channel.send(`**Tchau! ${interaction.member.user.username} | 👋**`);
+					disconnectFromChannel(interaction);
+				} else {
+					channel.send(text);
+				}
+			});
+	});
+}
+async function disconnectFromChannel(interaction) {
+	const connection = getVoiceConnection(interaction.guild.id);
+	if (connection) {
 		connection.destroy();
-		throw error;
 	}
-}
-
-async function voiceRecognition(
-	VoiceReceiver,
-	interaction,
-	client,
-	filename,
-	out
-) {
-	// cria uma stream de audio do canal de voz
-	const opusStream = VoiceReceiver.subscribe(interaction.member.id, {
-		end: {
-			behavior: EndBehaviorType.AfterSilence,
-			duration: 500,
-		},
-	});
-
-	// modula a stream
-	const prismStream = new prism.opus.OggLogicalBitstream({
-		opusHead: new prism.opus.OpusHead({
-			channelCount: 1,
-			sampleRate: 8000,
-		}),
-		crc: false,
-	});
-
-	pipeline(opusStream, prismStream, out, (err) => {
-		if (err) {
-			console.error(err);
-		} else if (opusStream.readableEnded) {
-			sendAudioToWitAi(filename, client, interaction);
-		}
-	});
-}
-
-async function sendAudioToWitAi(filename, client, interaction) {
-	const { Wit } = require("node-wit");
-	const clientWit = new Wit({
-		accessToken: process.env.WITAI_TOKEN,
-	});
-
-	const audio = readFileSync(filename);
-	const response = await clientWit.message(audio, {});
-
-	const channel = client.channels.cache.get(interaction.channelId);
-	channel.send({ content: `${response.text}` });
 }
 
 module.exports = {
@@ -75,29 +50,10 @@ module.exports = {
 	description: "ativa a função de reconhecimento de voz do aifbot",
 	type: 1,
 	run: async (client, interaction, args) => {
-		if (!interaction.member.voice.channel)
-			return interaction.reply(
-				"Você precisa estar em um canal de voz para usar este comando!"
-			);
-		try {
-			connectToChannel(interaction);
-			const connection = getVoiceConnection(interaction.guild.id);
-			const receiver = connection.receiver;
-
-			let date = Date.now();
-			const filename = `./gravacoes/${interaction.member.user.username}-${date}.ogg`;
-			const out = createWriteStream(filename);
-
-			receiver.speaking.on("start", () => {
-				voiceRecognition(receiver, interaction, client, filename, out);
-			});
-
-			interaction.reply({
-				content: "Escutando ** | 🎙️** ",
-				ephemeral: true,
-			});
-		} catch (error) {
-			console.error(error);
-		}
+		interaction.reply({
+			content: "Reconhecimento de voz ativado! ** | 🎙️** ",
+			ephemeral: true,
+		});
+		join(interaction);
 	},
 };
