@@ -28,4 +28,3 @@ client.on("ready", () => {
 
 // faz login no discord usando a token do config.json
 client.login(process.env.TOKEN);
-
