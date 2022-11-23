@@ -25,15 +25,30 @@ function join(interaction) {
 			.listen(connection.receiver, userId, interaction)
 			.then((data) => {
 				if (!data.transcript.text) return;
-				let text = data.transcript.text;
+				let text = data.transcript.text.toLowerCase();
 				const channel = interaction.client.channels.cache.get(
 					interaction.channelId
 				);
-				if (text.includes("desligar")) {
-					channel.send(`**Tchau! ${interaction.member.user.username} | 👋**`);
+				if (
+					text.includes("desligar") ||
+					text.includes("desconectar") ||
+					text.includes("tchau") ||
+					text.includes("sair")
+				) {
+					channel.send(
+						`**Tchau! ${interaction.member.user.username} | 👋**`
+					);
 					disconnectFromChannel(interaction);
+				} else if (text.includes("oi") || text.includes("olá")) {
+					channel.send(
+						`**Olá! 👋**`
+					);
+				} else if (text.includes("como vai")) {
+					channel.send(
+						`**Estou bem! E você?**`
+					);
 				} else {
-					channel.send(text);
+					channel.send(`${text}`);
 				}
 			});
 	});
