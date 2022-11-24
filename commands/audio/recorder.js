@@ -3,16 +3,15 @@ const { pipeline } = require("stream");
 const { EndBehaviorType, getVoiceConnection } = require("@discordjs/voice");
 const { AttachmentBuilder } = require("discord.js");
 const prism = require("prism-media");
+const clearGravacoes = require("../../handlers/clear");
 
 async function createListeningStream( VoiceReceiver, interaction, client, filename, out) {
-
 	const opusStream = VoiceReceiver.subscribe(interaction.member.id, {
 		end: {
 			behavior: EndBehaviorType.AfterSilence,
 			duration: 500,
 		},
 	});
-
 
 	const prismStream = new prism.opus.OggLogicalBitstream({
 		opusHead: new prism.opus.OpusHead({
@@ -21,7 +20,6 @@ async function createListeningStream( VoiceReceiver, interaction, client, filena
 		}),
 		crc: false,
 	});
-
 	
 	pipeline(opusStream, prismStream, out, (err) => {
 		if (err) {
@@ -32,6 +30,12 @@ async function createListeningStream( VoiceReceiver, interaction, client, filena
 	});
 }
 
+function disconnectFromChannel(interaction) {
+	const connection = getVoiceConnection(interaction.guild.id);
+	if (connection) {
+		connection.destroy();
+	}
+}
 
 function audioResponse(interaction, filename, client) {
 	try {
@@ -41,11 +45,12 @@ function audioResponse(interaction, filename, client) {
 			files: [attachment],
 			content: `Gravação de **${interaction.member.user.username} | 💁**`,
 		});
+		clearGravacoes();
+		disconnectFromChannel(interaction);
 	} catch (err){
 		console.error(err);
 	} 
 }
-
 
 module.exports = {
 	name: "record",
@@ -62,7 +67,6 @@ module.exports = {
 			}
 			const connection = getVoiceConnection(interaction.guild.id);
 			const receiver = connection.receiver;
-
 			let date = Date.now();
 			const filename = `./gravacoes/${interaction.member.user.username}-${date}.ogg`;
 			const out = createWriteStream(filename);
