@@ -1,18 +1,14 @@
 const {
-	VoiceConnectionStatus,
 	joinVoiceChannel,
-	entersState,
 	getVoiceConnection,
+	createAudioPlayer,
+	createAudioResource,
 } = require("@discordjs/voice");
-const fs = require("fs");
+const { join } = require("node:path");
 const Transcriber = require("discord-speech-to-text");
-const {
-	crypto_secretstream_xchacha20poly1305_TAG_MESSAGE,
-} = require("libsodium-wrappers");
-
 const transcriber = new Transcriber(process.env.WIT_TOKEN);
 
-function join(interaction) {
+function voiceJoin(interaction) {
 	const connection = joinVoiceChannel({
 		channelId: interaction.member.voice.channel.id,
 		guildId: interaction.guild.id,
@@ -20,6 +16,18 @@ function join(interaction) {
 		selfDeaf: false,
 		selfMute: false,
 	});
+	return connection;
+}
+
+function disconnectFromChannel(interaction) {
+	const connection = getVoiceConnection(interaction.guild.id);
+	if (connection) {
+		connection.destroy();
+	}
+}
+
+function transcribe(interaction) {
+	const connection = voiceJoin(interaction);
 	connection.receiver.speaking.on("start", (userId) => {
 		transcriber
 			.listen(connection.receiver, userId, interaction)
@@ -40,24 +48,35 @@ function join(interaction) {
 					);
 					disconnectFromChannel(interaction);
 				} else if (text.includes("oi") || text.includes("olá")) {
-					channel.send(
-						`**Olá! 👋**`
-					);
+					channel.send(`**Olá! 👋**`);
 				} else if (text.includes("como vai")) {
+					channel.send(`**Estou bem! E você?**`);
+				} else if (text.includes("quem é você")) {
 					channel.send(
-						`**Estou bem! E você?**`
+						`**Olá, eu sou conhecido como aifbot, mas pode me chamar como quiser!**`
 					);
+				} else if (text.includes("toque")) {
+					try {
+						const player = createAudioPlayer();
+						connection.subscribe(player);
+						const resource = createAudioResource(
+							join(
+								__dirname,
+								"../../assets/audios/gris-theme.mp3"
+							),
+							{ inlineVolume: true }
+						);
+						resource.volume.setVolume(0.8);
+						player.play(resource);
+						channel.send(`Gris, Pt. 1 · Berlinist ℗ Berlinist / Nomada Studio`);
+					} catch (error) {
+						console.error(error);
+					}
 				} else {
 					channel.send(`${text}`);
 				}
 			});
 	});
-}
-async function disconnectFromChannel(interaction) {
-	const connection = getVoiceConnection(interaction.guild.id);
-	if (connection) {
-		connection.destroy();
-	}
 }
 
 module.exports = {
@@ -69,6 +88,6 @@ module.exports = {
 			content: "Reconhecimento de voz ativado! ** | 🎙️** ",
 			ephemeral: true,
 		});
-		join(interaction);
+		transcribe(interaction);
 	},
 };
