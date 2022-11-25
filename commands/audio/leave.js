@@ -1,6 +1,6 @@
 const { getVoiceConnection } = require("@discordjs/voice");
 
-async function disconnectFromChannel(interaction) {
+function disconnectFromChannel(interaction) {
 	const connection = getVoiceConnection(interaction.guild.id);
 	if (connection) {
 		connection.destroy();
