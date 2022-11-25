@@ -1,6 +1,6 @@
 const { createWriteStream } = require("fs");
 const { pipeline } = require("stream");
-const { EndBehaviorType, getVoiceConnection } = require("@discordjs/voice");
+const { EndBehaviorType, getVoiceConnection, joinVoiceChannel, VoiceConnectionStatus, entersState } = require("@discordjs/voice");
 const { AttachmentBuilder } = require("discord.js");
 const prism = require("prism-media");
 const clearGravacoes = require("../../handlers/clear");
@@ -37,6 +37,21 @@ function disconnectFromChannel(interaction) {
 	}
 }
 
+async function connectToChannel(interaction) {
+	const connection = joinVoiceChannel({
+		channelId: interaction.member.voice.channel.id,
+		guildId: interaction.guild.id,
+		adapterCreator: interaction.guild.voiceAdapterCreator,
+	});
+	try {
+		await entersState(connection, VoiceConnectionStatus.Ready, 2_000);
+		return connection;
+	} catch (error) {
+		connection.destroy();
+		throw error;
+	}
+}
+
 function audioResponse(interaction, filename, client) {
 	try {
 		const attachment = new AttachmentBuilder().setFile(filename);
@@ -45,8 +60,8 @@ function audioResponse(interaction, filename, client) {
 			files: [attachment],
 			content: `Gravação de **${interaction.member.user.username} | 💁**`,
 		});
-		clearGravacoes();
 		disconnectFromChannel(interaction);
+		clearGravacoes();
 	} catch (err){
 		console.error(err);
 	} 
@@ -65,7 +80,7 @@ module.exports = {
 					ephemeral: true,
 				});
 			}
-			const connection = getVoiceConnection(interaction.guild.id);
+			const connection = await connectToChannel(interaction);
 			const receiver = connection.receiver;
 			let date = Date.now();
 			const filename = `./gravacoes/${interaction.member.user.username}-${date}.ogg`;
