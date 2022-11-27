@@ -2,7 +2,7 @@ const { config } = require("dotenv");
 const { Client, GatewayIntentBits, Collection, ActivityType } = require("discord.js");
 
 config();
-// cria instancia do cliente
+
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
