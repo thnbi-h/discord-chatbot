@@ -1,5 +1,10 @@
-const wait = require('node:timers/promises').setTimeout;
-const { ActionRowBuilder, SelectMenuBuilder, messageLink, bulkDelete } = require("discord.js");
+const wait = require("node:timers/promises").setTimeout;
+const {
+	ActionRowBuilder,
+	SelectMenuBuilder,
+	messageLink,
+	bulkDelete,
+} = require("discord.js");
 
 const criar = {
 	title: `Criador de Horário 📅`,
@@ -72,12 +77,21 @@ async function escolherDia(interaction, client) {
 	);
 	if (diasPreenchidos.length === dias.length) {
 		channel.send({ content: "Horário registrado com sucesso!" });
-		channel.messages.fetch({ limit: 8}).then(
-			(messages) => {
-				messages = messages.filter( (message) => message.author.id === client.user.id);
-				channel.bulkDelete(messages);
-			}
-		)
+		channel.messages.fetch({ limit: 8 }).then((messages) => {
+			messages = messages.filter(
+				(message) => message.author.id === client.user.id
+			);
+			channel.bulkDelete(messages);
+		});
+		const horarioEmbed = {
+			title: `📅 Horário de aulas: `,
+			description: `\n**Segunda-Feira** ☀️\n\n13:30 ${horario["Segunda-feira"].primeira}\n\n15:40 ${horario["Segunda-feira"].segunda}\n\n**Terça-Feira** 🌸\n\n13:30 ${horario["Terça-feira"].primeira}\n\n15:40 ${horario["Terça-feira"].segunda}\n\n**Quarta-Feira** 🤗\n\n13:30 ${horario["Quarta-feira"].primeira}\n\n15:40 ${horario["Quarta-feira"].segunda}\n\n**Quinta-Feira** 🌈\n\n13:30 ${horario['Quinta-feira'].primeira}\n\n15:40 ${horario['Quinta-feira'].segunda}\n\n**Sexta-Feira** 🥳\n\n13:30 ${horario["Sexta-feira"].primeira}\n\n15:40 ${horario["Sexta-feira"].segunda} \n\n`,
+			color: 0x008000,
+			footer: {
+				text: `Caso deseje editar use o comando criar novamente`,
+			},
+		};
+		channel.send({ embeds: [horarioEmbed] });
 		return;
 	}
 	channel
@@ -161,6 +175,8 @@ module.exports = {
 	type: 1,
 	run: async (client, interaction, args) => {
 		await escolherDia(interaction, client);
-		interaction.reply({ content: "Siga as instruções abaixo para criar o horários" });
+		interaction.reply({
+			content: "Siga as instruções abaixo para criar o horários",
+		});
 	},
 };
