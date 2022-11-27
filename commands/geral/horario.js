@@ -1,15 +1,5 @@
-const {
-	EmbedBuilder,
-	ActionRowBuilder,
-	SelectMenuBuilder,
-	Events,
-	ButtonBuilder,
-	ComponentType,
-	messageLink,
-	awaitMessageComponent,
-} = require("discord.js");
-const { channel } = require("node:diagnostics_channel");
-const wait = require("node:timers/promises").setTimeout;
+const wait = require('node:timers/promises').setTimeout;
+const { ActionRowBuilder, SelectMenuBuilder, messageLink, bulkDelete } = require("discord.js");
 
 const criar = {
 	title: `Criador de Horário 📅`,
@@ -21,9 +11,6 @@ const criar = {
 		width: 0,
 	},
 };
-
-let horario = {};
-
 const selecionarDia = new ActionRowBuilder().addComponents(
 	new SelectMenuBuilder()
 		.setCustomId("selecionarDia")
@@ -52,122 +39,128 @@ const selecionarDia = new ActionRowBuilder().addComponents(
 		])
 );
 
-function escolherDia(interaction) {
-	if (interaction.replied || interaction.deferred) {
-		interaction.editReply({
-			embeds: [criar],
-			components: [selecionarDia],
-		});
-	} else {
-		interaction.reply({
-			embeds: [criar],
-			components: [selecionarDia],
-		});
+const horario = {
+	id: "",
+	"Segunda-feira": {
+		primeira: "",
+		segunda: "",
+	},
+	"Terça-feira": {
+		primeira: "",
+		segunda: "",
+	},
+	"Quarta-feira": {
+		primeira: "",
+		segunda: "",
+	},
+	"Quinta-feira": {
+		primeira: "",
+		segunda: "",
+	},
+	"Sexta-feira": {
+		primeira: "",
+		segunda: "",
+	},
+};
+
+async function escolherDia(interaction, client) {
+	const channel = interaction.channel;
+	horario.id = interaction.user.id;
+	const dias = Object.keys(horario);
+	const diasPreenchidos = dias.filter(
+		(dia) => horario[dia].primeira !== "" && horario[dia].segunda !== ""
+	);
+	if (diasPreenchidos.length === dias.length) {
+		channel.send({ content: "Horário registrado com sucesso!" });
+		channel.messages.fetch({ limit: 8}).then(
+			(messages) => {
+				messages = messages.filter( (message) => message.author.id === client.user.id);
+				channel.bulkDelete(messages);
+			}
+		)
+		return;
 	}
-	const collectorDia = interaction.channel.createMessageComponentCollector({
-		componentType: ComponentType.SelectMenu,
-		time: 60000,
-	});
+	channel
+		.send({ embeds: [criar], components: [selecionarDia] })
+		.then(async (msg) => {
+			const filter = (i) =>
+				i.customId === "selecionarDia" &&
+				i.user.id === interaction.user.id;
+			const collector = msg.createMessageComponentCollector({
+				filter,
+				time: 60000,
+			});
+			collector.on("collect", async (i) => {
+				const dia = i.values[0];
+				await i.deferUpdate();
 
-	collectorDia.on("collect", (i) => {
-		if (i.customId === "selecionarDia") {
-			dia = i.values[0];
-			primeira(interaction, dia);
-		}
-	});
-}
-
-function primeira(interaction, dia) {
-	const primeiraAula = {
-		title: `${dia}`,
-		description: `Qual é a sua **primeira** aula na ${dia}?`,
-		color: 0x008000,
-		footer: {
-			text: `(é só enviar no chat)`,
-		},
-	};
-	interaction.editReply({
-		embeds: [primeiraAula],
-		components: [],
-	});
-
-	let collectorPrimeira = interaction.channel.createMessageCollector({
-		component: ComponentType.TextInput,
-		time: 60000,
-	});
-	collectorPrimeira.on("collect", (i) => {
-		if (i.content) {
-			i.delete();
-			segunda(interaction, dia);
-		}
-	});
-}
-
-async function segunda(interaction, dia) {
-	const segundaAula = {
-		title: `${dia}`,
-		description: `Qual é a sua **segunda** aula na ${dia}?`,
-		color: 0x008000,
-		footer: {
-			text: `(é só enviar no chat)`,
-		},
-	};
-	interaction.editReply({
-		embeds: [segundaAula],
-	});
-	const collectorSegunda = interaction.channel.createMessageCollector({
-		component: ComponentType.TextInput,
-		time: 60000,
-	});
-	collectorSegunda.on("collect", async (i) => {
-		if (i.content) {
-			const confirmar = new ActionRowBuilder()
-				.addComponents(
-					new ButtonBuilder()
-						.setCustomId("confirmar")
-						.setLabel("Confirmar")
-						.setStyle("Primary")
-				)
-				.addComponents(
-					new ButtonBuilder()
-						.setCustomId("editar")
-						.setLabel("Editar")
-						.setStyle("Danger")
-				);
-			interaction.channel
-				.send({ components: [confirmar] })
-				.then(async (msg) => {
-					const collectorConfirmar =
-						msg.createMessageComponentCollector({
-							componentType: ComponentType.Button,
-							time: 60000,
-						});
-						collectorConfirmar.on("collect", async (i) => {
-							msg.delete();
-							if (i.customId === "confirmar") {
-							escolherDia(interaction);
-						} else if (i.customId === "editar") {
-							primeira(interaction, dia);
-						}
+				const primeiraAula = {
+					title: `${dia}`,
+					description: `Qual é a sua **primeira** aula na ${dia}?`,
+					color: 0x008000,
+					footer: {
+						text: `(é só enviar no chat)`,
+					},
+				};
+				const segundaAula = {
+					title: `${dia}`,
+					description: `Qual é a sua **segunda** aula na ${dia}?`,
+					color: 0x008000,
+					footer: {
+						text: `(é só enviar no chat)`,
+					},
+				};
+				await i.editReply({
+					embeds: [primeiraAula],
+					components: [],
+					fetchReply: true,
+				});
+				const filter = (m) => m.author.id === interaction.user.id;
+				let collector = channel.createMessageCollector({
+					filter,
+					max: 1,
+					time: 60000,
+				});
+				collector.on("collect", async (m) => {
+					const primeiraAula = m.content;
+					horario[dia].primeira = primeiraAula;
+					await m.delete();
+					await i.editReply({
+						embeds: [segundaAula],
+						components: [],
 					});
 				});
-		}
-	});
+				collector.on("end", async () => {
+					collector = channel.createMessageCollector({
+						filter,
+						max: 1,
+						time: 60000,
+					});
+					collector.on("collect", async (m) => {
+						const segundaAula = m.content;
+						horario[dia].segunda = segundaAula;
+						const horarioDoDia = {
+							title: `${dia}`,
+							description: `13:30: ${horario[dia].primeira}\n15:30: ${horario[dia].segunda}`,
+							color: 0x008000,
+						};
+						await m.delete();
+						await i.editReply({
+							embeds: [horarioDoDia],
+						});
+						escolherDia(interaction, client);
+					});
+				});
+			});
+		});
 }
 
 module.exports = {
-	name: "horario",
-	description: "mostra o horario das turmas",
+	name: "criar",
+	description: "Crie seu horário de aulas",
 	type: 1,
-	options: [
-		{
-			name: "turma",
-			type: 3,
-			description: "turma que voce quer ver o horario",
-			required: false,
-		},
-	],
 	run: async (client, interaction, args) => {
-		escolherDia(interaction);
+		await escolherDia(interaction, client);
+		interaction.reply({ content: "Siga as instruções abaixo para criar o horários" });
 	},
 };
