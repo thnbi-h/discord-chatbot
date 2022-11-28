@@ -13,35 +13,31 @@ Projeto chatbot desenvolvido pela turma de Administração de Redes de Computado
 
 O if chatbot é uma ferramenta que pode ser usada para facilitar a vida de estudantes de telecomunicações (assim como nós). Especialmente estudantes do técnico integrado do IFSC câmpus de São José. Já que as suas funções foram criadas a partir de dores de estudantes do curso
 
-### Criar horário para as turmas
-
-A ideia é permitir que seja configurado por meio de comandos os horários de diferentes turmas, e que com estes horários de forma automática o bot crie uma imagem do calendário semanal para cada turma
-
-E ainda adicionar o comando para mostrar estas imagens novamente, assim no início de cada semestre um aluno pode configurar este horário e depois sempre que alguém quiser saber o horário de sua turma, se já estiver configurada seja só executar um comando como, `!horario turma2` que o bot envia a imagem com o horário da turma requisitado
-
-![Imagem de exemplo do horário](https://cdn.discordapp.com/attachments/821200514041511948/1014321683236130927/exemplo.png)
-
 ### Comandos por voz
 
-Os comandos por voz fazem parte de uma função mais experimental do aifbot. Com apoio de uma inteligência artificial transcrevemos alguns segundos de voz e com esta transcrição executamos comandos simples, quando você falar `oi` o aifbot que é muito educado responde, é claro, se você quiser que o aifbot se apresente é só perguntar `quem é você`
+Os comandos por voz fazem parte de uma função mais experimental do aifbot. Com apoio de uma inteligência artificial transcrevemos sua  voz e com esta transcrição executamos comandos simples, quando você falar `oi`, por exemplo, o aifbot responde. Se você quiser que o aifbot se apresente é só perguntar `quem é você`, e assim por diante.
+
+### Criar horário para as turmas
+
+Uma das funções do aifbot é o comando ``criar`` com ele é possível de uma forma bem interativa criar um cronograma de aulas, que será guardado no banco de dados possibilitando que em qualquer outro momento você possa com o comando ``horario`` receber ele novamente
 
 ### Gravador de áudio
 
-Com o comando `/gravar` o aifbot grava o áudio da sua chamada por alguns minutos e quando a gravação para, ele envia a gravação no chat
+Com o comando `gravar` o aifbot grava o áudio da sua chamada por alguns minutos e quando a gravação para, ele envia a gravação no chat
 
 ### Calculadora com algumas fórmulas do curso
 
-É uma calculadora com algumas funções a mais, além de fazer cálculos simples como `2 + 2` você também pode usar para outras coisas que podem ser úteis como por exemplo, converter uma tensão em milivolts para volts, ou até calcular a lei de ohms. Exemplo: `!ohms R=10 I=2` então o bot retorna: `V = 20 Volts`
+É uma calculadora com algumas funções a mais, além de fazer cálculos simples como `2 + 2` você também pode usar para outras coisas que podem ser úteis como por exemplo, converter uma tensão em milivolts para volts, ou até calcular a lei de ohms. Exemplo: `ohms R=10 I=2` então o bot retorna: `V = 20 Volts`
 
 ### Comando para tocar som de telefone na call
 
-`!tele` tiri rin tiri rin tiriin!! básicamente isto.
+`tele` tiri rin tiri rin tiriin!! básicamente isto.
 
 Brincadeira! Com um fundo de verdade. O comando telefone foi pensado para integrar a matéria de telefonia ip na nossa aplicação. É um comando divertido, criado por uma piada do curso e com finalidade de estudo, vale a pena testar
 
 ### Curiosidades aleatórias do curso
 
-Com `!settelecurso <seu horário>` você pode definir um horário para o bot todo dia neste horário enviar uma curiosidade sobre o curso (sim existe comando para desativar `!naoquerosaber`). Também existe a opção de você pedir a curiosidade automática no momento que quiser `!curiosidade`
+Quer saber curiosidades aleatórias sobre as telecomunicações? com o comando `curiosidade` você recebe uma curiosidade aleatória
 
 > Telstar, um projeto comum da NASA e da empresa estadunidense de telecomunicação AT&T, foi o primeiro satélite de telecomunicação civil. Os satélites Telstar foram os primeiros satélites que permitiam ligações eventuais entre as estações munidas de grandes antenas de acompanhamento.
 
@@ -53,7 +49,7 @@ Com `!settelecurso <seu horário>` você pode definir um horário para o bot tod
 
 ## 💻 Tecnologias
 
-[![My Skills](https://skillicons.dev/icons?i=discord,js,nodejs,git,github)](https://skillicons.dev)
+[![My Skills](https://skillicons.dev/icons?i=discord,nodejs,git,github,aws,mongodb)](https://skillicons.dev)
 
 ## 📊 Status do projeto
 
