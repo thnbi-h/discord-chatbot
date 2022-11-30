@@ -1,5 +1,6 @@
 const { ActionRowBuilder, SelectMenuBuilder } = require("discord.js");
 const horarios = require("../../models/Horario.js");
+const db = require("../../handlers/db.js");
 
 const criar = {
 	title: `Criador de Horário 📅`,
@@ -79,7 +80,20 @@ async function criarHorario(interaction, client) {
 				(message) => message.author.id === client.user.id
 			);
 			channel.bulkDelete(messages);
-			horarios.create(horario);
+			horarios.findOne({ idUser: horario.idUser }, (err, horarioDB) => {
+				if (err) return console.error(err);
+				if (horarioDB) {
+					horarios.findOneAndUpdate(
+						{ idUser: horario.idUser },
+						{ $set: horario },
+						(err, horarioDB) => {
+							if (err) return console.error(err);
+						}
+					);
+				} else {
+					horarios.create(horario);
+				}
+			});
 		});
 
 		const horarioEmbed = {
@@ -87,7 +101,7 @@ async function criarHorario(interaction, client) {
 			description: `\n**Segunda-Feira** ☀️\n\n13:30 ${horario["Segunda-feira"].primeira}\n\n15:40 ${horario["Segunda-feira"].segunda}\n\n**Terça-Feira** 🌸\n\n13:30 ${horario["Terça-feira"].primeira}\n\n15:40 ${horario["Terça-feira"].segunda}\n\n**Quarta-Feira** 🤗\n\n13:30 ${horario["Quarta-feira"].primeira}\n\n15:40 ${horario["Quarta-feira"].segunda}\n\n**Quinta-Feira** 🌈\n\n13:30 ${horario["Quinta-feira"].primeira}\n\n15:40 ${horario["Quinta-feira"].segunda}\n\n**Sexta-Feira** 🥳\n\n13:30 ${horario["Sexta-feira"].primeira}\n\n15:40 ${horario["Sexta-feira"].segunda} \n\n`,
 			color: 0x008000,
 			footer: {
-				text: `Caso deseje editar use o comando criar novamente`,
+				text: `Quando você quiser visualizar seu horário novamente, basta digitar o comando /horario`,
 			},
 		};
 
@@ -98,8 +112,7 @@ async function criarHorario(interaction, client) {
 	channel
 		.send({ embeds: [criar], components: [selecionarDia] })
 		.then(async (msg) => {
-			const filter = (i) =>
-				i.customId === "selecionarDia"
+			const filter = (i) => i.customId === "selecionarDia";
 			const collector = msg.createMessageComponentCollector({
 				filter,
 				time: 60000,
@@ -183,10 +196,6 @@ module.exports = {
 	description: "Crie seu horário de aulas",
 	type: 1,
 	run: async (client, interaction, args) => {
-		const horarioBD = horarios.findOne({ id: interaction.user.id });
-		if (horarioBD !== undefined) {
-			horarios.deleteOne({ id: interaction.user.id });
-		}
 		await criarHorario(interaction, client);
 	},
 };
