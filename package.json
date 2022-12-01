@@ -14,7 +14,7 @@
     "discord.js": "^14.7.0",
     "dotenv": "^16.0.3",
     "libsodium-wrappers": "^0.7.10",
-    "mongoose": "^6.7.4",
+    "mongoose": "^6.7.5",
     "prism-media": "^2.0.0-alpha.0"
   },
   "description": ""
