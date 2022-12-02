@@ -1,8 +1,9 @@
 const { config } = require("dotenv");
 const { Client, GatewayIntentBits, Collection, ActivityType } = require("discord.js");
-
 config();
-// cria instancia do cliente
+const db = require("./handlers/db.js");
+
+
 const client = new Client({
 	intents: [
 		GatewayIntentBits.Guilds,
@@ -25,3 +26,8 @@ client.on("ready", () => {
 
 // faz login no discord usando a token do config.json
 client.login(process.env.TOKEN);
+
+db.on("error", console.error.bind(console, "connection error:"));
+db.once("open", () => {
+	console.log("Connected to MongoDB");
+});
