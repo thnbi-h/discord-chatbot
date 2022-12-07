@@ -1,5 +1,3 @@
-const discord = require("discord.js");
-
 module.exports = {
 	"name" : "db-watts-calc",
 	"description" : "convete watts para dbm e vice-versa",

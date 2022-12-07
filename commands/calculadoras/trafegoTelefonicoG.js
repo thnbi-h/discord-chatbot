@@ -1,5 +1,3 @@
-const discord = require("discord.js");
-
 module.exports = {
 	name: "gtra",
 	description: "calcula o trafego telefonico de um grupo de usuarios",

@@ -1,4 +1,4 @@
-const discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   "name" : "scalc",
@@ -62,7 +62,7 @@ run: async (client, interaction, args) => {
    if (operacao == "/") {
       resultado = n1 / n2;
    }
-   const embed = new discord.EmbedBuilder()
+   const embed = new EmbedBuilder()
    .setColor("#008000")
    .setTitle("Calculadora")
    .setDescription(`O resultado da operação é: ${resultado} ** | 🧑‍🏫**`)

@@ -1,4 +1,3 @@
-const discord = require("discord.js");
 const {
 	createAudioResource,
 	VoiceConnectionStatus,

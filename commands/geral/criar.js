@@ -1,6 +1,5 @@
 const { ActionRowBuilder, SelectMenuBuilder } = require("discord.js");
 const horarios = require("../../models/Horario.js");
-const db = require("../../handlers/db.js");
 
 const criar = {
 	title: `Criador de Horário 📅`,

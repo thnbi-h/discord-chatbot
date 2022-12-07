@@ -1,5 +1,3 @@
-const discord = require("discord.js");
-
 module.exports = {
 	name: "help",
 	description: "precisa de alguma ajuda?",

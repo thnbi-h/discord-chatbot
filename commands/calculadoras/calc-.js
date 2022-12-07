@@ -1,4 +1,4 @@
-const discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   "name" : "calc",
@@ -17,7 +17,7 @@ run: async (client, interaction, args) => {
       try{
          let expressao = interaction.options.getString("expressao");
          let resultado = eval(expressao);
-         const embed = new discord.EmbedBuilder()
+         const embed = new EmbedBuilder()
          .setColor("#008000")
          .setTitle("Calculadora")
          .setDescription(`O resultado da operação é: ${resultado} ** | 🧑‍🏫**`)

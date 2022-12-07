@@ -1,4 +1,4 @@
-const discord = require("discord.js");
+const { EmbedBuilder } = require("discord.js");
 
 module.exports = {
   "name" : "avatar",
@@ -22,7 +22,7 @@ module.exports = {
       person = userMention;
     }
 
-    const embed = new discord.EmbedBuilder()
+    const embed = new EmbedBuilder()
       .setColor("#008000")
       .setTitle(`Avatar de **${person.username} | 🖼️**`)
       .setImage(person.displayAvatarURL({ dynamic: true, size: 4096 }));
