@@ -4,7 +4,7 @@
 ---
 
 <p align="center">
- <a><img width="600" src="https://media.discordapp.net/attachments/821200514041511948/1014365356908888104/logo.png"/></a>
+ <a><img width="600" src="https://cdn.discordapp.com/attachments/821200514041511948/1050376234468655124/aifbotaifchatbotlogo2.png"/></a>
 </p>
 
 Projeto chatbot desenvolvido pela turma de Administração de Redes de Computadores e Telefonia IP do Curso Técnico Integrado de Telecomunicações do IFSC São José.
