@@ -3,7 +3,7 @@ const { pipeline } = require("stream");
 const { EndBehaviorType, getVoiceConnection, joinVoiceChannel, VoiceConnectionStatus, entersState } = require("@discordjs/voice");
 const { AttachmentBuilder } = require("discord.js");
 const prism = require("prism-media");
-const clearGravacoes = require("../../handlers/clear");
+const clearGravacoes = require("../../tools/clear");
 
 async function createListeningStream( VoiceReceiver, interaction, client, filename, out) {
 	const opusStream = VoiceReceiver.subscribe(interaction.member.id, {
@@ -68,7 +68,7 @@ function audioResponse(interaction, filename, client) {
 }
 
 module.exports = {
-	name: "record",
+	name: "gravar",
 	description: "grava sua voz obs: caso o audio seja muito grande, pode ser que o bot não consiga enviar o arquivo.",
 	type: 1,
 
@@ -82,7 +82,7 @@ module.exports = {
 			}
 			const connection = await connectToChannel(interaction);
 			const receiver = connection.receiver;
-			let date = Date.now();
+			const date = Date.now();
 			const filename = `./gravacoes/${interaction.member.user.username}-${date}.ogg`;
 			const out = createWriteStream(filename);
 			
