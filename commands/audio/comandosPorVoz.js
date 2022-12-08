@@ -80,7 +80,7 @@ function transcribe(interaction) {
 }
 
 module.exports = {
-	name: "recognition",
+	name: "reconhecer-voz",
 	description: "ativa a função de reconhecimento de voz do aifbot",
 	type: 1,
 	run: async (client, interaction, args) => {

@@ -8,7 +8,7 @@ function disconnectFromChannel(interaction) {
 }
 
 module.exports = {
-	name: "leave",
+	name: "sair",
 	description: "o bot sai do canal de voz",
 	type: 1,
 

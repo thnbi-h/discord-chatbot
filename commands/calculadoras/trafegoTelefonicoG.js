@@ -69,6 +69,6 @@ module.exports = {
          interaction.reply(
             `O numero de usuarios é ${resultado} ** usuarios **`
          );
-      } //  feat: adicionar comando tráfego telefônico :phone: #33
+      }
 	},
 };

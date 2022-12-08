@@ -20,7 +20,7 @@ async function connectToChannel(interaction) {
 }
 
 module.exports = {
-	name: "join",
+	name: "entrar",
 	description: "entra no seu canal de voz",
 	type: 1,
 

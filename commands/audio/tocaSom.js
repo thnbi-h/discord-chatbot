@@ -30,7 +30,7 @@ async function connectToChannel(interaction) {
 }
 
 module.exports = {
-	name: "tocasom",
+	name: "tele",
 	description: "toca o som de um telefone antigo",
 	type: 1,
 

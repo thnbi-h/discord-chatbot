@@ -1,7 +1,7 @@
 const fs = require("fs");
 
 module.exports = {
-	name: "telecuriosidades",
+	name: "curiosidade",
 	description: "envia uma curiosidade sobre as telecomunicações",
 	type: 1,
 
