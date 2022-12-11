@@ -40,7 +40,7 @@ const selecionarDia = new ActionRowBuilder().addComponents(
 		])
 );
 
-const horario = {
+let horario = {
 	idUser: "",
 	"Segunda-feira": {
 		primeira: "",
@@ -89,6 +89,30 @@ async function criarHorario(interaction, client) {
 							if (err) return console.error(err);
 						}
 					);
+					horario = {
+						idUser: "",
+						"Segunda-feira": {
+							primeira: "",
+							segunda: "",
+						},
+						"Terça-feira": {
+							primeira: "",
+							segunda: "",
+						},
+						"Quarta-feira": {
+							primeira: "",
+							segunda: "",
+						},
+						"Quinta-feira": {
+							primeira: "",
+
+							segunda: "",
+						},
+						"Sexta-feira": {
+							primeira: "",
+							segunda: "",
+						},
+					};
 				} else {
 					horarios.create(horario);
 				}
@@ -179,7 +203,6 @@ async function criarHorario(interaction, client) {
 						};
 
 						await m.delete();
-
 						await i.editReply({
 							embeds: [horarioDoDia],
 						});
