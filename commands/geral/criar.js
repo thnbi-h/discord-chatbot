@@ -40,7 +40,7 @@ const selecionarDia = new ActionRowBuilder().addComponents(
 		])
 );
 
-const horario = {
+let horario = {
 	idUser: "",
 	"Segunda-feira": {
 		primeira: "",
@@ -64,37 +64,46 @@ const horario = {
 	},
 };
 
+function limparHorario(horario) {
+	horario.idUser = "";
+	for (const dia in horario) {
+		horario[dia].primeira = "";
+		horario[dia].segunda = "";
+	}
+}
+
+function procuraNoBD(interaction) {
+	horarios.findOneAndUpdate(
+		{ idUser: interaction.user.id },
+		{ $set: horario },
+		(err, horarioDB) => {
+			if (err) return console.error(err);
+			if (!horarioDB) {
+				horarios.create(horario);
+			}
+		}
+	);
+	setTimeout(() => {
+		limparHorario(horario);
+	}
+	, 1000);
+}
+
+let msgCounter = -1;
 async function criarHorario(interaction, client) {
+	msgCounter++;
 	horario.idUser = interaction.user.id;
 	const channel = interaction.channel;
 	const dias = Object.keys(horario);
-	const diasPreenchidos = dias.filter(
-		(dia) => horario[dia].primeira !== "" && horario[dia].segunda !== ""
-	);
-
+	const diasPreenchidos = dias.filter((dia) => horario[dia].segunda !== "");
 	if (diasPreenchidos.length === dias.length) {
 		channel.send({ content: "Horário registrado com sucesso!" });
-		channel.messages.fetch({ limit: 8 }).then((messages) => {
+		channel.messages.fetch({ limit: msgCounter }).then((messages) => {
 			messages = messages.filter(
 				(message) => message.author.id === client.user.id
 			);
 			channel.bulkDelete(messages);
-			horarios.findOne({ idUser: horario.idUser }, (err, horarioDB) => {
-				if (err) return console.error(err);
-				if (horarioDB) {
-					horarios.findOneAndUpdate(
-						{ idUser: horario.idUser },
-						{ $set: horario },
-						(err, horarioDB) => {
-							if (err) return console.error(err);
-						}
-					);
-				} else {
-					horarios.create(horario);
-				}
-			});
 		});
-
 		const horarioEmbed = {
 			title: `📅 Horário de aulas: `,
 			description: `\n**Segunda-Feira** ☀️\n\n13:30 ${horario["Segunda-feira"].primeira}\n\n15:40 ${horario["Segunda-feira"].segunda}\n\n**Terça-Feira** 🌸\n\n13:30 ${horario["Terça-feira"].primeira}\n\n15:40 ${horario["Terça-feira"].segunda}\n\n**Quarta-Feira** 🤗\n\n13:30 ${horario["Quarta-feira"].primeira}\n\n15:40 ${horario["Quarta-feira"].segunda}\n\n**Quinta-Feira** 🌈\n\n13:30 ${horario["Quinta-feira"].primeira}\n\n15:40 ${horario["Quinta-feira"].segunda}\n\n**Sexta-Feira** 🥳\n\n13:30 ${horario["Sexta-feira"].primeira}\n\n15:40 ${horario["Sexta-feira"].segunda} \n\n`,
@@ -103,11 +112,10 @@ async function criarHorario(interaction, client) {
 				text: `Quando você quiser visualizar seu horário novamente, basta digitar o comando /horario`,
 			},
 		};
-
 		channel.send({ embeds: [horarioEmbed] });
+		procuraNoBD(interaction);
 		return;
 	}
-
 	channel
 		.send({ embeds: [criar], components: [selecionarDia] })
 		.then(async (msg) => {
@@ -179,7 +187,6 @@ async function criarHorario(interaction, client) {
 						};
 
 						await m.delete();
-
 						await i.editReply({
 							embeds: [horarioDoDia],
 						});
@@ -195,6 +202,8 @@ module.exports = {
 	description: "Crie seu horário de aulas",
 	type: 1,
 	run: async (client, interaction, args) => {
+		interaction.deferReply();
 		await criarHorario(interaction, client);
+		interaction.deleteReply();
 	},
 };
