@@ -61,3 +61,5 @@ Quer saber curiosidades aleatórias sobre as telecomunicações? com o comando `
 
 - [Loritta |  Um bot brasileiro para o Discord extremamente customizável](https://loritta.website/)
 - [Ayana | Um bot _all in one_ customizável que entre suas funções tem opções com áudio](https://ayana.io/)
+---
+**Para rodar o projeto localmente leia a [documentação](SETUP.md).**
