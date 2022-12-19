@@ -17,6 +17,8 @@ O if chatbot é uma ferramenta que pode ser usada para facilitar a vida de estud
 
 Se você quer adicionar o aifbot ao seu servidor sem se preocupar com hostear o bot localmente e coisas do tipo, você pode adicionar a nossa instancia pública [clicando aqui](https://discord.com/api/oauth2/authorize?client_id=1019291298458509424&permissions=8&scope=bot).
 
+**Para rodar o bot localmente leia a [documentação](SETUP.md).**
+
 ### Comandos por voz
 
 Os comandos por voz fazem parte de uma função mais experimental do aifbot. Com apoio de uma inteligência artificial transcrevemos sua  voz e com esta transcrição executamos comandos simples, quando você falar `oi`, por exemplo, o aifbot responde. Se você quiser que o aifbot se apresente é só perguntar `quem é você`, e assim por diante.
@@ -66,4 +68,3 @@ Quer saber curiosidades aleatórias sobre as telecomunicações? com o comando `
 - [Loritta |  Um bot brasileiro para o Discord extremamente customizável](https://loritta.website/)
 - [Ayana | Um bot _all in one_ customizável que entre suas funções tem opções com áudio](https://ayana.io/)
 ---
-**Para rodar o projeto localmente leia a [documentação](SETUP.md).**
