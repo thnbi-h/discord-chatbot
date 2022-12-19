@@ -13,7 +13,7 @@ Projeto chatbot desenvolvido pela turma de Administração de Redes de Computado
 
 O if chatbot é uma ferramenta que pode ser usada para facilitar a vida de estudantes de telecomunicações (assim como nós). Especialmente estudantes do técnico integrado do IFSC câmpus de São José. Já que as suas funções foram criadas a partir de dores de estudantes do curso.
 
-### Como adicionar o aifbot ao seu servidor
+### 🥳 Como adicionar o aifbot ao seu servidor
 
 Se você quer adicionar o aifbot ao seu servidor sem se preocupar com hostear o bot localmente e coisas do tipo, você pode adicionar a nossa instancia pública [clicando aqui](https://discord.com/api/oauth2/authorize?client_id=1019291298458509424&permissions=8&scope=bot).
 
