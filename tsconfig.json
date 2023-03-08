@@ -1,0 +1,19 @@
+{
+	"compilerOptions": {
+		"target": "ES5",
+		"strict": false,
+		"forceConsistentCasingInFileNames": true,
+		"allowJs": true,
+		"skipLibCheck": true,
+		"noEmit": true,
+		"incremental": true,
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"resolveJsonModule": true,
+		"sourceMap": true,
+		"removeComments": true,
+		"rootDir": "./src/"
+	},
+	"include": ["src/**/*"],
+	"exclude": ["node_modules", "**/*.spec.ts"]
+}
