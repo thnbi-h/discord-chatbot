@@ -3,9 +3,9 @@
 
 ---
 
-<p align="center">
- <a><img width="600" src="https://cdn.discordapp.com/attachments/821200514041511948/1050376234468655124/aifbotaifchatbotlogo2.png"/></a>
-</p>
+<div align="center">
+ <img height="200" src="src/assets/imgs/aifbot.png"/>
+</div>
 
 Projeto chatbot desenvolvido pela turma de Administração de Redes de Computadores e Telefonia IP do Curso Técnico Integrado de Telecomunicações do IFSC São José.
 
@@ -40,7 +40,7 @@ Com o comando `gravar` o aifbot grava o áudio da sua chamada por alguns minutos
 ### Comando para tocar som de telefone na call
 
 :phone: `tele` tiri rin tiri rin tiriin!! básicamente isto.
- 
+
 É um comando divertido, criado por uma piada do curso e com finalidade de estudo, vale a pena testar.
 
 ### Curiosidades aleatórias do curso
