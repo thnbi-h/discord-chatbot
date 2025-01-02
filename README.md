@@ -49,10 +49,6 @@ Quer saber curiosidades aleatórias sobre as telecomunicações? com o comando `
 
 > Telstar, um projeto comum da NASA e da empresa estadunidense de telecomunicação AT&T, foi o primeiro satélite de telecomunicação civil. Os satélites Telstar foram os primeiros satélites que permitiam ligações eventuais entre as estações munidas de grandes antenas de acompanhamento. :nerd_face:
 
-<div align="center">
-    <img width="600px" src="https://cdn.discordapp.com/attachments/821200514041511948/1015348119933825024/unknown.png">
-</div>
-
 ---
 
 ## 💻 Tecnologias
